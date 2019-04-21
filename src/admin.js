@@ -7,19 +7,19 @@ import {Row} from 'antd';
 import {Col} from 'antd';
 
 import "antd/dist/antd.css";
-
+import "./style/common.less"
 
 class Admin extends Component{
     render(){
         return(
             <div>
-                <Row>
-                    <Col span={4}>
+                <Row className="container">
+                    <Col span={4} className="nav-left">
                         <NavLeft></NavLeft>
                     </Col>
-                    <Col span={20}>
+                <Col span={20} className="main">
                         <Header></Header>
-                        <div>contents</div>
+                       <Row className="content">i m content</Row>
                         <Footer></Footer>
                     </Col>
                 </Row>
