@@ -1,5 +1,6 @@
 import React from 'react'
 import utils from '../../utils/utils'
+import Axios from '../../axios/index'
 import './index.less'
 import {Row,Col} from 'antd'
 
@@ -12,6 +13,21 @@ export default class Header extends React.Component{
                 sysTime
             })
         },1000)
+        this.getWeather()
+    }
+    getWeather(){
+        let city="北京"
+        Axios.jsonp({url:'http://api.map.baidu.com/telematics/v3/weather?location=北京&output=json&ak=2a5UOWOm7lPcqaewMUErpZELpGoGRBRg'})
+             .then((response)=>{
+                 console.log(response)
+                //  this.setState({
+                //      city:response.currentCity,
+
+                //  })
+             }).catch(err => {
+                console.log(err) // 这里catch到错误timeout
+              })
+
     }
     render(){
         return(
@@ -19,7 +35,7 @@ export default class Header extends React.Component{
                 <Row className="header-top">
                     <Col span={24}>
                         <span>hello,cissy</span>
-                        <a hre="#">退出</a>
+                        <a href="#">退出</a>
                     </Col>
                 </Row>
                 <Row className="breadcrumb">
