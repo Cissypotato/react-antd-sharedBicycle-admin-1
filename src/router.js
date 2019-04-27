@@ -4,7 +4,7 @@ import {HashRouter,Route} from 'react-router-dom'
 import App from './App'
 import Login from './pages/login'
 import Admin from './admin'
-import Button from './pages/ui/button'
+import Buttons from './pages/ui/button'
 import NoMatch from './pages/nomatch'
 
 class Router extends React.Component{
@@ -15,7 +15,7 @@ class Router extends React.Component{
                     <Route path='/login' component={Login}/>
                     <Route path='/admin' render={()=>
                      <Admin>
-                         <Route exact={true} path='/admin/ui/buttons' component={Button}/>
+                         <Route exact={true} path='/admin/ui/buttons' component={Buttons}/>
                          <Route  component={NoMatch}/>
                          
                      </Admin>
