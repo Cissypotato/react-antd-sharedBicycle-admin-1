@@ -53,7 +53,7 @@ export default class Buttons extends React.Component{
                     </Button.Group>
                 </Card>
                 <Card title="改变按钮大小">
-                    <RadioGroup name="radiogroup" onChange={this.handleChangeSize}>
+                    <RadioGroup name="radiogroup" onChange={this.handleChangeSize} value={this.state.size}>
                         <Radio value="small">小</Radio>
                         <Radio value="default">中</Radio>
                         <Radio value="large">大</Radio>
