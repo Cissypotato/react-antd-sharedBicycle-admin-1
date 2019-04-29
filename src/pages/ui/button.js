@@ -21,28 +21,28 @@ export default class Buttons extends React.Component{
 
     render(){
         return(
-            <div className="buttons">
-                <Card title="一般按钮">
+            <div className="buttons uiWrap">
+                <Card title="一般按钮" className="cardWrap">
                     <Button type="primary">potato</Button>
                     <Button>potato</Button>
                     <Button type="dashed">potato</Button>
                     <Button type="danger">potato</Button>
                 </Card>
-                <Card title="图形按钮">
+                <Card title="图形按钮" className="cardWrap">
                     <Button type="primary" shape="circle" icon="search"></Button>
                     <Button shape="circle" icon="search"></Button>
                     <Button icon="search">search</Button>
                     <Button type="dashed"icon="search"></Button>
                     <Button type="dashed"icon="download">下载</Button>
                 </Card>
-                <Card title="loading 按钮">
+                <Card title="loading 按钮" className="cardWrap">
                     <Button type="primary" loading={this.state.loading}>loading</Button>
                     <Button  size="small" loading={this.state.loading}>loading</Button>
                     <Button type="circle" loading={this.state.loading}></Button>
                     <Button type="dashed" loading={this.state.loading}>loading</Button>
                     <Button type="dashed"onClick={this.handleCloseLoading}>关闭</Button>
                 </Card>
-                <Card title="按钮组">
+                <Card title="按钮组" className="cardWrap">
                     <Button.Group >
                         <Button type="primary" style={{marginRight:0}}>
                             <Icon type="left" />Backward
@@ -52,7 +52,7 @@ export default class Buttons extends React.Component{
                         </Button>
                     </Button.Group>
                 </Card>
-                <Card title="改变按钮大小">
+                <Card title="改变按钮大小" className="cardWrap">
                     <RadioGroup name="radiogroup" onChange={this.handleChangeSize} value={this.state.size}>
                         <Radio value="small">小</Radio>
                         <Radio value="default">中</Radio>

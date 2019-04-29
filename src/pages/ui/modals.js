@@ -15,6 +15,7 @@ export default class Modals extends React.Component{
             [type]:true
         })
     }
+   
     handleCancel=(type)=>{
         this.setState({
             [type]:false
@@ -25,10 +26,20 @@ export default class Modals extends React.Component{
             [type]:false
         })
     }
+
+    handleConfirm=(type)=>{
+        Modal[type]({
+            title: 'Confirm',
+            content: '你确定不买土豆吗',
+            okText: '确定',
+            cancelText: '取消',
+
+        })
+    }
     render(){
         return(
-            <div>
-                <Card title="基础弹框">
+            <div className="uiWrap">
+                <Card title="基础弹框" className="cardWrap">
                     <Button type="primary" onClick={()=>this.handleModal('modal1')}>open</Button>
                     <Button type="primary" onClick={()=>this.handleModal('modal2')}>自定义页脚</Button>
                     <Button type="primary" onClick={()=>this.handleModal('modal3')}>顶部20px弹框</Button>
@@ -86,6 +97,14 @@ export default class Modals extends React.Component{
                     >
                     <p>垂直居中吗</p>
                 </Modal>
+
+
+                <Card title="信息确认框" className="cardWrap">
+                    <Button type="primary" onClick={()=>this.handleConfirm('confirm')}>confirm</Button>
+                    <Button type="primary" onClick={()=>this.handleConfirm('info')}>info</Button>
+                    <Button type="primary" onClick={()=>this.handleConfirm('success')}>success</Button>
+                    <Button type="primary" onClick={()=>this.handleConfirm('warning')}>warning</Button>
+                </Card>
             </div>
         )
     }
