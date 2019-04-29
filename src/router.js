@@ -7,6 +7,7 @@ import Admin from './admin'
 import Buttons from './pages/ui/button'
 import Modals from './pages/ui/modals'
 import Loadings from './pages/ui/loadings'
+import Notifications from './pages/ui/notification'
 import NoMatch from './pages/nomatch'
 
 class Router extends React.Component{
@@ -21,6 +22,7 @@ class Router extends React.Component{
                             <Route  path='/admin/ui/buttons' component={Buttons}/>
                             <Route  path='/admin/ui/modals' component={Modals}/>
                             <Route  path='/admin/ui/loadings' component={Loadings}/>
+                            <Route  path='/admin/ui/notification' component={Notifications}/>
                             <Route  component={NoMatch}/>
 
                          </Switch> 
