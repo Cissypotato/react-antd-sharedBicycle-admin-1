@@ -9,6 +9,7 @@ import Modals from './pages/ui/modals'
 import Loadings from './pages/ui/loadings'
 import Notifications from './pages/ui/notification'
 import Messages from './pages/ui/message'
+import Tabsi from './pages/ui/tab'
 import NoMatch from './pages/nomatch'
 
 class Router extends React.Component{
@@ -25,6 +26,7 @@ class Router extends React.Component{
                             <Route  path='/admin/ui/loadings' component={Loadings}/>
                             <Route  path='/admin/ui/notification' component={Notifications}/>
                             <Route  path='/admin/ui/messages' component={Messages}/>
+                            <Route  path='/admin/ui/tabs' component={Tabsi}/>
                             <Route  component={NoMatch}/>
 
                          </Switch> 
