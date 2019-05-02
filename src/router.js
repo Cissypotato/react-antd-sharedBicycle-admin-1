@@ -13,6 +13,8 @@ import Tabsi from './pages/ui/tab'
 import NoMatch from './pages/nomatch'
 import Gallerys from './pages/ui/gallery';
 import Carousels from './pages/ui/carousel';
+import LoginForm from './pages/form/login';
+
 
 class Router extends React.Component{
     render(){
@@ -31,6 +33,7 @@ class Router extends React.Component{
                             <Route  path='/admin/ui/tabs' component={Tabsi}/>
                             <Route  path='/admin/ui/gallery' component={Gallerys}/>
                             <Route  path='/admin/ui/carousel' component={Carousels}/>
+                            <Route  path='/admin/form/login' component={LoginForm}/>
                             <Route  component={NoMatch}/>
 
                          </Switch> 
