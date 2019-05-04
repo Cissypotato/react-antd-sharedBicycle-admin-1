@@ -21,6 +21,12 @@ export default class Axios{
     }
    
     static ajax(options){
+        let loading
+        if(options.isShowLoading !==false){
+            loading=document.getElementById('loadEffect')
+            console.log(loading)
+            loading.style.display="block"
+        }
         const baseApi=' https://www.easy-mock.com/mock/5cccf95e8b7ca91bf19ca79a/potato'
         return new Promise((resolve,reject)=>{
             axios({
@@ -31,6 +37,10 @@ export default class Axios{
                 params:(options.data && options.dara.params) || ''
      
              }).then((response)=>{
+                if(options.isShowLoading !==false){
+                    loading=document.getElementById('loadEffect')
+                    loading.style.display="none"
+                }
                 if(response.status===200){
                     let res=response.data
                     if(res.code===0){
@@ -38,7 +48,7 @@ export default class Axios{
                     }else{
                         Modal.info({
                             title:'提示',
-                            content:res.data.msg
+                            content:res.msg
 
                         })
                     }
