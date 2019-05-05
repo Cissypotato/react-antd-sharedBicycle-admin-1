@@ -24,7 +24,6 @@ export default class Axios{
         let loading
         if(options.isShowLoading !==false){
             loading=document.getElementById('loadEffect')
-            console.log(loading)
             loading.style.display="block"
         }
         const baseApi=' https://www.easy-mock.com/mock/5cccf95e8b7ca91bf19ca79a/potato'
