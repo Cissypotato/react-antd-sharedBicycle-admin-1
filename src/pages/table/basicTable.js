@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card ,Table,Modal} from 'antd'
+import {Card ,Table,Modal,Button,message} from 'antd'
 import Axios from './../../axios'
 
 
@@ -10,7 +10,8 @@ export default class BasicTable extends React.Component{
   state={
     dataSource1:[],
     dataSource2:[],
-    seletedItem:{}
+    seletedItem:{},
+    selectedRowKeys:[]
   }
 
   componentDidMount(){
@@ -41,21 +42,27 @@ export default class BasicTable extends React.Component{
     this.request()
 
   }
-  request(){
+
+  request=()=>{
     Axios.ajax({
       url:'/table/list'
     }).then((res)=>{
       res.result.map((item,index)=>{
         item.key=index
       })
+      console.log(this.state.selectedRowKeys)
       this.setState({
-        dataSource2:res.result
+        dataSource2:res.result,
+        selectedRowKeys:[],
+        selectedRows:null
         
       })
+      console.log(this.state.selectedRowKeys)
     })
     
   }
-  onClickRow(record,index){
+
+  onClickRow=(record,index)=>{
     let rowkeys=[index]
     this.setState({
       seletedItem:record,
@@ -65,6 +72,21 @@ export default class BasicTable extends React.Component{
     Modal.info({
       title:'提示信息',
       content:`您选择了：${this.state.seletedItem.name}`
+    })
+  }
+
+  clearCheckbox=()=>{
+    let ids=this.state.selectedRowKeys
+    Modal.info({
+      title:'取消选择',
+      content:`您即将取消${ids.join(',')}项`,
+      onOk:()=>{
+        message.success(
+          "取消成功"
+        )
+        this.request()
+      }
+
     })
   }
 
@@ -135,6 +157,18 @@ export default class BasicTable extends React.Component{
             selectedRowKeys
 
           }
+          const checkboxRowSelection={
+            type:'checkbox',
+            selectedRowKeys,
+            onChange:(selectedRowKeys, selectedRows)=>{
+              this.setState({
+                selectedRowKeys
+              })
+              console.log(selectedRowKeys)
+              console.log(this.state.selectedRowKeys)
+
+            }
+          }
         return(
             <div style={{background:"#f1f3f5"}}>
                 <Card title="基础表格">
@@ -143,7 +177,7 @@ export default class BasicTable extends React.Component{
                 <Card title="动态表格" style={{marginTop:'10px'}}>
                     <Table dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
                 </Card>
-                <Card title="动态表格-radio" style={{marginTop:'10px'}}>
+                <Card title="表格-radio" style={{marginTop:'10px'}}>
                     <Table 
                     rowSelection={rowSelection}
                     onRow={(record,index) => {
@@ -154,6 +188,12 @@ export default class BasicTable extends React.Component{
                         
                       };
                     }}
+                    dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
+                </Card>
+                <Card title="表格-checkbox" style={{marginTop:'10px'}}>
+                    <Button onClick={this.clearCheckbox}> 清除</Button>
+                    <Table 
+                    rowSelection={checkboxRowSelection}
                     dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
                 </Card>
             </div>
