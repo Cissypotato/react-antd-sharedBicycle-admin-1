@@ -1,6 +1,7 @@
 import React from 'react'
-import {Card ,Table,Modal,Button,message} from 'antd'
+import {Card ,Table,Modal,Button,message,pagination} from 'antd'
 import Axios from './../../axios'
+import Utils from './../../utils/utils'
 
 
 
@@ -13,7 +14,9 @@ export default class BasicTable extends React.Component{
     seletedItem:{},
     selectedRowKeys:[]
   }
-
+params={
+  page:1
+}
   componentDidMount(){
     const dataSource = [{
       id: '0',
@@ -44,20 +47,27 @@ export default class BasicTable extends React.Component{
   }
 
   request=()=>{
+    let _this=this
     Axios.ajax({
-      url:'/table/list'
+      url:'/table/list',
+      data:{
+        params:{
+          page:_this.params.page
+        }
+      }
     }).then((res)=>{
-      res.result.map((item,index)=>{
+      res.result.list.map((item,index)=>{
         item.key=index
       })
-      console.log(this.state.selectedRowKeys)
       this.setState({
-        dataSource2:res.result,
+        dataSource2:res.result.list,
         selectedRowKeys:[],
-        selectedRows:null
-        
+        selectedRows:null,
+        pagination:Utils.pagination(res,(current)=>{
+            _this.params.page=current
+            this.request()
+        })
       })
-      console.log(this.state.selectedRowKeys)
     })
     
   }
@@ -164,18 +174,17 @@ export default class BasicTable extends React.Component{
               this.setState({
                 selectedRowKeys
               })
-              console.log(selectedRowKeys)
-              console.log(this.state.selectedRowKeys)
+
 
             }
           }
         return(
             <div style={{background:"#f1f3f5"}}>
                 <Card title="基础表格">
-                    <Table dataSource={this.state.dataSource1} columns={columns} bordered={true}/>
+                    <Table dataSource={this.state.dataSource1} columns={columns} bordered={true} pagination={false}/>
                 </Card>
                 <Card title="动态表格" style={{marginTop:'10px'}}>
-                    <Table dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
+                    <Table dataSource={this.state.dataSource2} columns={columns} bordered={true} pagination={false}/>
                 </Card>
                 <Card title="表格-radio" style={{marginTop:'10px'}}>
                     <Table 
@@ -188,13 +197,25 @@ export default class BasicTable extends React.Component{
                         
                       };
                     }}
-                    dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
+                    dataSource={this.state.dataSource2} 
+                    columns={columns} 
+                    bordered={true}
+                    pagination={false}
+                    />
                 </Card>
                 <Card title="表格-checkbox" style={{marginTop:'10px'}}>
                     <Button onClick={this.clearCheckbox}> 清除</Button>
                     <Table 
                     rowSelection={checkboxRowSelection}
-                    dataSource={this.state.dataSource2} columns={columns} bordered={true}/>
+                    dataSource={this.state.dataSource2} 
+                    columns={columns} 
+                    bordered={true}
+                    pagination={false}
+                    />
+                </Card>
+                <Card title="表格-pagination" style={{marginTop:'10px'}}>
+                    <Table 
+                    dataSource={this.state.dataSource2} columns={columns} bordered={true} pagination={this.state.pagination}/>
                 </Card>
             </div>
         )

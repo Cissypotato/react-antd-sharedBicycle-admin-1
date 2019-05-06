@@ -33,7 +33,7 @@ export default class Axios{
                 url:options.url,
                 method:'get',
                 timeout:5000,
-                params:(options.data && options.dara.params) || ''
+                params:(options.data && options.data.params) || ''
      
              }).then((response)=>{
                 if(options.isShowLoading !==false){
