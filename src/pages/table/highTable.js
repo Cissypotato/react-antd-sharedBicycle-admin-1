@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card ,Table,Modal,Button,message,pagination} from 'antd'
+import {Card ,Table,Modal,Button,message,pagination,Badge} from 'antd'
 import Axios from './../../axios'
 import Utils from './../../utils/utils'
 
@@ -19,7 +19,7 @@ export default class HighTable extends React.Component{
     request=()=>{
         let _this=this
         Axios.ajax({
-          url:'/table/list',
+          url:'/hightable/list',
           data:{
             params:{
               page:_this.params.page
@@ -36,7 +36,24 @@ export default class HighTable extends React.Component{
         
       }
     
+    handleChange=(pagination, filters, sorter)=>{
+        this.setState({
+            sortOrder:sorter.order
+        })
+    }
+    handleDelete=(item)=>{
+        let id =item.id
+        Modal.confirm({
+            title:"确认",
+            content:"您确定要删除此条吗",
+            onOk:()=>{
+                message.success('删除成功')
+                this.request()
+            }
 
+
+        })
+    }
     render(){
         const columns = [{
             title: 'id',
@@ -107,7 +124,7 @@ export default class HighTable extends React.Component{
 
 
 
-          const columns2 = [
+        const columns2 = [
             {
               title: 'Full Name', width: 100, dataIndex: 'name', key: 'name', fixed: 'left',
             },
@@ -140,8 +157,120 @@ export default class HighTable extends React.Component{
                 name: 'Jim Green',
                 age: 40,
                 address: 'London Park',
-              }];
-            
+            }];
+
+
+        const columns3= [{
+                title: 'id',
+                dataIndex: 'id',
+              },{
+                title: '用户名',
+                dataIndex: 'name',
+              }, {
+                title: '性别',
+                dataIndex: 'gender',
+                render(gender){
+                  return gender===1 ?'男':'女'
+                }
+              },{
+                title: '年龄',
+                dataIndex: 'age',
+                defaultSortOrder: 'descend',
+                sorter: (a, b) => a.age - b.age,
+                sortOrder:this.state.sortOrder
+              }, {
+                title: '状态',
+                dataIndex: 'state',
+                render(state){
+                  let config={
+                    1:'咸鱼一条',
+                    2:'应届小白',
+                    3:'多年油条',
+                    4:'资深大神'
+                  }
+                  return config[state]
+                }
+              }, {
+                title: '爱好',
+                dataIndex: 'hobbies',
+                render(hobbies){
+                  let config={
+                    1:'看书',
+                    2:'烹饪',
+                    3:'麦霸',
+                    4:'蓝球',
+                    5:'画画',
+                    6:'吉他',
+                    7:'游戏',
+                    8:'桌球'
+                  }
+                  return config[hobbies]
+                }
+              },, {
+                title: '生日',
+                dataIndex: 'birthday',
+              },, {
+                title: '地址',
+                dataIndex: 'address',
+              },, {
+                title: '早起时间',
+                dataIndex: 'getup',
+        }];
+           
+        const columns4= [{
+            title: 'id',
+            dataIndex: 'id',
+          },{
+            title: '用户名',
+            dataIndex: 'name',
+          }, {
+            title: '性别',
+            dataIndex: 'gender',
+            render(gender){
+              return gender===1 ?'男':'女'
+            }
+          },{
+            title: '年龄',
+            dataIndex: 'age',
+          }, {
+            title: '状态',
+            dataIndex: 'state',
+            render(state){
+              let config={
+                1:<Badge status="success" text="success" />,
+                2:<Badge status="error" text="error" />,
+                3:<Badge status="warning" text="warning" />,
+                4:<Badge status="default" text="default" />
+              }
+              return config[state]
+            }
+          }, {
+            title: '爱好',
+            dataIndex: 'hobbies',
+            render(hobbies){
+              let config={
+                1:'看书',
+                2:'烹饪',
+                3:'麦霸',
+                4:'蓝球',
+                5:'画画',
+                6:'吉他',
+                7:'游戏',
+                8:'桌球'
+              }
+              return config[hobbies]
+            }
+          },, {
+            title: '生日',
+            dataIndex: 'birthday',
+          },, {
+            title: '地址',
+            dataIndex: 'address',
+          },, {
+            title: '操作',
+            render:(text,item)=>{return <a onClick={(item)=>{this.handleDelete(item)}}>删除</a>}
+           
+          }];
         return (
             <div>
 
@@ -163,7 +292,26 @@ export default class HighTable extends React.Component{
                     />
                 {/* </Card> */}
 
+
+                <Card title="表格-升序降序" style={{marginTop:10}}>
+                    <Table 
+                    dataSource={this.state.dataSource2} 
+                    columns={columns3} 
+                    bordered={true}
+                    pagination={false}
+                    onChange={this.handleChange}
+                    />
+                </Card>
+                <Card title="表格-升序降序" style={{marginTop:10}}>
+                    <Table 
+                    dataSource={this.state.dataSource2} 
+                    columns={columns4} 
+                    bordered={true}
+                    pagination={false}
+                    />
+                </Card>
             </div>
+            
         )
     }
 }
