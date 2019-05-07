@@ -283,7 +283,7 @@ export default class HighTable extends React.Component{
                     scroll={{y:240}}
                     />
                 </Card>
-                {/* <Card title="表格-左侧固定"> */}
+                {/* <Card title="表格-左侧固定"bodyStyle={{maxWidth:"100%",overflow:"auto"}}> */}
                     <Table 
                     dataSource={data2} 
                     with={1000}
@@ -302,7 +302,7 @@ export default class HighTable extends React.Component{
                     onChange={this.handleChange}
                     />
                 </Card>
-                <Card title="表格-升序降序" style={{marginTop:10}}>
+                <Card title="表格-badge" style={{marginTop:10}}>
                     <Table 
                     dataSource={this.state.dataSource2} 
                     columns={columns4} 

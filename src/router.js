@@ -17,6 +17,7 @@ import LoginForm from './pages/form/login';
 
 import BasicTable from './pages/table/basicTable';
 import HighTable from './pages/table/highTable';
+import City from './pages/city';
 
 
 class Router extends React.Component{
@@ -38,7 +39,10 @@ class Router extends React.Component{
                             <Route  path='/admin/ui/carousel' component={Carousels}/>
                             <Route  path='/admin/form/login' component={LoginForm}/>
                             {/* <Route  path='/admin/form/register' component={RegisterForm}/> */}
+                            <Route  path='/admin/table/basic' component={BasicTable}/>
                             <Route  path='/admin/table/high' component={HighTable}/>
+                            <Route  path='/admin/city' component={City}/>
+
                             <Route  component={NoMatch}/>
 
                          </Switch> 
