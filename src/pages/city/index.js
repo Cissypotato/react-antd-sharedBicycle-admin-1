@@ -1,15 +1,15 @@
 
 import React from 'react'
-import {Card ,Table,Modal,Button,message,pagination,Badge} from 'antd'
+import {Card ,Table,Modal,Button,message,pagination,Badge,Form,Select} from 'antd'
 import Axios from './../../axios'
 import Utils from './../../utils/utils'
 
-
+const { Option } = Select;
 
 
 export default class City extends React.Component{
     state={
-
+        showOpenCity:false,
     }
 
     params={
@@ -19,7 +19,8 @@ export default class City extends React.Component{
     componentDidMount(){
         this.requestList()
     }
-
+    
+    
     requestList=()=>{
       let  _this=this
         Axios.ajax({
@@ -41,6 +42,16 @@ export default class City extends React.Component{
                 })
             })
         })
+    }
+
+
+    handleOpenCity=()=>{
+        this.setState({
+            showOpenCity:true
+        })
+    }
+    handleSubmit=()=>{
+
     }
     render(){
 
@@ -82,8 +93,8 @@ export default class City extends React.Component{
                 <Card>
                     
                 </Card>
-                <Card  style={{marginTop:10}}>
-                    
+                <Card>
+                    <Button type="primary" onClick={this.handleOpenCity}>开通城市</Button>
                 </Card>
                 <div>
                     <Table 
@@ -93,8 +104,61 @@ export default class City extends React.Component{
                         pagination={this.state.pagination}
                         />
                 </div>
+                <Modal
+                title="开通城市"
+                 visible={this.state.showOpenCity}
+                 onCancel={()=>{this.setState({showOpenCity:false})}}
+                 onOk={this.handleSubmit}
+                >
+                    <OpenCityForm/>
+
+                </Modal>
             </div>
         )
     }
 
 }
+
+class FilterForm extends React.Component{
+    render(){
+        return (
+            <div>
+
+
+            </div>
+        )
+    }
+}
+
+class OpenCityForm extends React.Component{
+    render(){
+        return(
+            <div>
+                <Form>
+                        <Form.Item label="开通城市">
+                            <Select>
+                                <Option value="1">全部</Option>
+                                <Option value="2">北京</Option>
+                                <Option value="3">成都</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="运营模式">
+                            <Select>
+                                <Option value="1">自营</Option>
+                                <Option value="3">加盟</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="用车模式">
+                            <Select>
+                                <Option value="1">指定停车点</Option>
+                                <Option value="2">禁停区</Option>
+                            </Select>
+                        </Form.Item>
+                    </Form>
+            </div>
+        )
+        
+    }
+}
+
+OpenCityForm = Form.create({})(OpenCityForm)
