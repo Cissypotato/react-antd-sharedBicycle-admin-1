@@ -51,7 +51,22 @@ export default class City extends React.Component{
         })
     }
     handleSubmit=()=>{
-
+        let cityInfo=this.cityForm.props.form.getFieldsValue()
+        console.log(cityInfo)
+        Axios.ajax({
+            url:'/city/open',
+           data:{
+                params:cityInfo
+            }
+        }).then((res)=>{
+            if(res.code===0){
+                message.success('开通成功')
+                this.setState({
+                    showOpenCity:false
+                })
+                this.requestList()
+            }
+        })
     }
     render(){
 
@@ -64,9 +79,15 @@ export default class City extends React.Component{
           }, {
             title: '用车模式',
             dataIndex: 'mode',
+            render(mode){
+                return mode===1 ? "停车点":"禁停区"
+            }
           },{
             title: '运营模式',
             dataIndex: 'op_mode',
+            render(op_mode){
+                return op_mode===1 ? "自营":"加盟"
+            }
           }, {
             title: '授权加盟商',
             dataIndex: 'franchisee'
@@ -84,6 +105,7 @@ export default class City extends React.Component{
           },, {
             title: '操作时间',
             dataIndex: 'update_time',
+            render:Utils.formatDate
           },, {
             title: '操作人',
             dataIndex: 'sys_user_name',
@@ -110,7 +132,7 @@ export default class City extends React.Component{
                  onCancel={()=>{this.setState({showOpenCity:false})}}
                  onOk={this.handleSubmit}
                 >
-                    <OpenCityForm/>
+                    <OpenCityForm wrappedComponentRef={(inst)=>{this.cityForm=inst}}/>
 
                 </Modal>
             </div>
@@ -131,28 +153,53 @@ class FilterForm extends React.Component{
 }
 
 class OpenCityForm extends React.Component{
+    
     render(){
+        const formItemLayout = {
+            labelCol: {
+              span:5
+            },
+            wrapperCol: {
+              span:10
+            },
+          } 
+          const { getFieldDecorator }=this.props.form
         return(
             <div>
                 <Form>
-                        <Form.Item label="开通城市">
-                            <Select>
-                                <Option value="1">全部</Option>
-                                <Option value="2">北京</Option>
-                                <Option value="3">成都</Option>
-                            </Select>
+                        <Form.Item label="开通城市"{...formItemLayout}>
+                            {
+                                getFieldDecorator('city_id',{
+                                    initialValue:'1'
+                                })(<Select>
+                                    <Option value="0">全部</Option>
+                                    <Option value="1">北京</Option>
+                                    <Option value="2">成都</Option>
+                                </Select>)
+                            }
+                            
                         </Form.Item>
-                        <Form.Item label="运营模式">
-                            <Select>
-                                <Option value="1">自营</Option>
-                                <Option value="3">加盟</Option>
-                            </Select>
+                        <Form.Item label="运营模式" {...formItemLayout}>
+                            {
+                                getFieldDecorator('op_mode',{
+                                    initialValue:'1'
+                                })(<Select>
+                                    <Option value="1">自营</Option>
+                                    <Option value="2">加盟</Option>
+                                </Select>)
+                            }
+                            
                         </Form.Item>
-                        <Form.Item label="用车模式">
-                            <Select>
-                                <Option value="1">指定停车点</Option>
-                                <Option value="2">禁停区</Option>
-                            </Select>
+                        <Form.Item label="用车模式" {...formItemLayout}>
+                            {
+                                getFieldDecorator('use_mode',{
+                                    initialValue:'1'
+                                })(<Select>
+                                    <Option value="1">指定停车点</Option>
+                                    <Option value="2">禁停区</Option>
+                                </Select>)
+                            }
+                            
                         </Form.Item>
                     </Form>
             </div>
