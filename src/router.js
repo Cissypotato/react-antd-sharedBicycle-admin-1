@@ -18,6 +18,7 @@ import LoginForm from './pages/form/login';
 import BasicTable from './pages/table/basicTable';
 import HighTable from './pages/table/highTable';
 import City from './pages/city';
+import Order from './pages/order';
 
 
 class Router extends React.Component{
@@ -42,6 +43,8 @@ class Router extends React.Component{
                             <Route  path='/admin/table/basic' component={BasicTable}/>
                             <Route  path='/admin/table/high' component={HighTable}/>
                             <Route  path='/admin/city' component={City}/>
+                            <Route  path='/admin/order' component={Order}/>
+
 
                             <Route  component={NoMatch}/>
 

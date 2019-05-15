@@ -151,7 +151,7 @@ class FilterForm extends React.Component{
         )
     }
 }
-
+FilterForm = Form.create({})(FilterForm)
 class OpenCityForm extends React.Component{
     
     render(){

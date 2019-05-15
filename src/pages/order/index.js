@@ -1,10 +1,39 @@
 import React from 'react'
-import  {Button, Card,Table,Form,message, }  from 'antd'
+import  {Button, Card,Table,Form,message,DatePicker,Select }  from 'antd'
+import Axios from './../../axios'
+import Utils from './../../utils/utils'
 
-
-
+const { Option } = Select;
 export default class Order extends React.Component{
     state={}
+    params={
+        page:1
+    }
+    componentDidMount(){
+        this.requestList()
+    }
+    requestList=()=>{
+        let  _this=this
+        Axios.ajax({
+            url:"order/list",
+            data:{
+                params:{
+                    page:this.params.page
+                }
+            }
+        }).then((res)=>{
+            this.setState({
+                dataSource:res.result.item_list.map((item,index)=>{
+                    item.key=index
+                    return item
+                }),
+                pagination:Utils.pagination(res,(current)=>{
+                    _this.params.page=current;
+                    _this.requestList()
+                })
+            })
+        })
+    }
     render(){
         const columns=[{
             title: '订单编号',
@@ -15,26 +44,15 @@ export default class Order extends React.Component{
           }, {
             title: '用户名',
             dataIndex: 'user_name'
-          },{
-            title: '运营模式',
-            dataIndex: 'op_mode',
-            render(op_mode){
-                return op_mode===1 ? "自营":"加盟"
-            }
           }, {
-            title: '授权加盟商',
-            dataIndex: 'franchisee'
+            title: '手机号',
+            dataIndex: 'mobile'
           }, {
-            title: '城市管理员',
-            dataIndex: 'city_admins',
-            render(arr){
-                return arr.map((item)=>{
-                    return item.user_name
-                }).join(',')
-            }
+            title: '里程',
+            dataIndex: 'distance'
           }, {
-            title: '行驶时常',
-            dataIndex: 'total_time',
+            title: '行驶时长',
+            dataIndex: 'total_time'
           },{
             title: '状态',
             dataIndex: 'status'
@@ -76,21 +94,56 @@ export default class Order extends React.Component{
 
 class FilterForm extends React.Component{
     render(){
+    const { getFieldDecorator }=this.props.form
         return(
             <div>
-
+                
+                <Form layout="inline">
+                    <Form.Item label="城市">
+                        {
+                            getFieldDecorator('city_id',{
+                                initialValue:'0'
+                            })(<Select style={{width:100}}>
+                                <Option value="0">全部</Option>
+                                <Option value="1">北京</Option>
+                                <Option value="2">成都</Option>
+                            </Select>)
+                        }
+                        
+                    </Form.Item>
+                    <Form.Item label="订单时间">
+                     {getFieldDecorator('start-time')(<DatePicker style={{marginRight:10}}/>)}
+                     {getFieldDecorator('end-time')(<DatePicker />)}
+                    </Form.Item>
+                    <Form.Item label="订单状态">
+                        {
+                            getFieldDecorator('city_id',{
+                                initialValue:'0'
+                            })(<Select style={{width:100}}>
+                                <Option value="0">全部</Option>
+                                <Option value="1">进行中</Option>
+                                <Option value="2">结束行程</Option>
+                            </Select>)
+                        }
+                        
+                    </Form.Item>
+                    <Form.Item >
+                        <Button type="primary"style={{marginRight:20}}>查询</Button>
+                        <Button >重置</Button>
+                    </Form.Item>
+                </Form>
             </div>
         )
     }
 }
+FilterForm = Form.create({})(FilterForm)
 
+// class FilterForm extends React.Component{
+//     render(){
+//         return(
+//             <div>
 
-class FilterForm extends React.Component{
-    render(){
-        return(
-            <div>
-
-            </div>
-        )
-    }
-}
+//             </div>
+//         )
+//     }
+// }
