@@ -1,11 +1,12 @@
 import React from 'react'
-import  {Button, Card,Table,Form,message,DatePicker,Select }  from 'antd'
+import  { Button, Card, Table, Form, message, DatePicker, Modal, Select}  from 'antd'
 import Axios from './../../axios'
 import Utils from './../../utils/utils'
 
 const { Option } = Select;
 export default class Order extends React.Component{
-    state={}
+    state={
+    }
     params={
         page:1
     }
@@ -34,6 +35,23 @@ export default class Order extends React.Component{
             })
         })
     }
+    handleOrderDetails=()=>{
+        let item =this.state.selectedItem
+        if(!item){
+            Modal.info({
+                title:'信息',
+                content:"请先选择一条订单"
+            })
+        }
+        window.open(`/#/common/order/detail/${item.id}`,'_blank')
+
+    }
+    handleChangeRow=(selectedRowKeys, selectedRows)=>{
+        this.setState({
+            selectedItem:selectedRows[0]
+        })
+    }
+
     render(){
         const columns=[{
             title: '订单编号',
@@ -69,17 +87,38 @@ export default class Order extends React.Component{
             title: '实付金额',
             dataIndex: 'user_pay'
           },];
+        //   const {selectedRowKeys}=this.state
+        //   const rowSelection={
+        //     type:"radio",
+        //     selectedRowKeys
+
+        //   }
+
+          const rowSelection = {
+            type:"radio",
+            onChange: (selectedRowKeys, selectedRows) => {
+                
+             this.handleChangeRow(selectedRowKeys, selectedRows)
+              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+              console.log(this.state)
+            },
+            // getCheckboxProps: record => ({
+            //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
+            //   name: record.name,
+            // }),
+          };
         return (
             <div>
                 <Card>
                     <FilterForm/>
                 </Card>
                 <Card>
-                    <Button>订单详情</Button>
+                    <Button onClick={this.handleOrderDetails}>订单详情</Button>
                     <Button>删除订单</Button>
                 </Card>
                 <div>
                     <Table 
+                        rowSelection={rowSelection}
                         dataSource={this.state.dataSource} 
                         columns={columns} 
                         bordered={true}

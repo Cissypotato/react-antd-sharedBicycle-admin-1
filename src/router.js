@@ -19,6 +19,8 @@ import BasicTable from './pages/table/basicTable';
 import HighTable from './pages/table/highTable';
 import City from './pages/city';
 import Order from './pages/order';
+import Common from './common';
+import OrderDetail from './pages/order/detail';
 
 
 class Router extends React.Component{
@@ -52,6 +54,11 @@ class Router extends React.Component{
                      </Admin>
                     }
                     />
+                    <Route path='/common' render={()=>
+                        <Common>
+                            <Route  path='/common/order/detail/:orderId' component={OrderDetail}/>
+                        </Common>
+                    }/>
                 </App>
             </HashRouter>
         )
