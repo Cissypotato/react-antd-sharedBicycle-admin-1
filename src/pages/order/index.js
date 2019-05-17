@@ -10,6 +10,31 @@ export default class Order extends React.Component{
     params={
         page:1
     }
+    optionList=[
+        {
+            type:"SELECT",
+            label:"城市",
+            field:'city_id',
+            width:100,
+            initialValue:'0',
+            list:[{id:'0',name:'全部'},{id:'1',name:'北京'},{id:'2',name:'成都'}]
+
+        },
+        {
+            type:"订单时间",
+            label:"订单时间",
+        },
+        {
+            type:"SELECT",
+            label:"订单状态",
+            field:'city_id',
+            width:100,
+            initialValue:'0',
+            list:[{id:'0',name:'全部'},{id:'1',name:'进行中'},{id:'2',name:'结束行程'}]
+
+        }
+
+    ]
     componentDidMount(){
         this.requestList()
     }
@@ -156,7 +181,7 @@ class FilterForm extends React.Component{
                     </Form.Item>
                     <Form.Item label="订单状态">
                         {
-                            getFieldDecorator('city_id',{
+                            getFieldDecorator('state',{
                                 initialValue:'0'
                             })(<Select style={{width:100}}>
                                 <Option value="0">全部</Option>

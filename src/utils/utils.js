@@ -1,3 +1,9 @@
+import React from 'react'
+import {Select} from 'antd'
+
+
+const {Option} =Select
+
 export default {
     formatDate(time){
         if(!time) return '';
@@ -18,6 +24,15 @@ export default {
             showQuickJumper:true
 
         }
+    },
+    getOptionList(data){
+        if(!data){
+            return []
+        }
+        const optionLists=[]
+        data.map((item)=>{
+            optionLists.push(<Option value={item.id}>{item.name}</Option>) 
+        })
     }
 
 }
