@@ -29,10 +29,13 @@ export default {
         if(!data){
             return []
         }
-        const optionLists=[]
+        const options=[]
         data.map((item)=>{
-            optionLists.push(<Option value={item.id}>{item.name}</Option>) 
+            console.log(item.id)
+            const id=item.id
+            options.push(<Option value={id} key={id}>{item.name}</Option>) 
         })
+        return options
     }
 
 }

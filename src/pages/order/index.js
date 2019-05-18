@@ -2,6 +2,7 @@ import React from 'react'
 import  { Button, Card, Table, Form, message, DatePicker, Modal, Select}  from 'antd'
 import Axios from './../../axios'
 import Utils from './../../utils/utils'
+import BaseForm from '../../components/baseForm'
 
 const { Option } = Select;
 export default class Order extends React.Component{
@@ -15,23 +16,24 @@ export default class Order extends React.Component{
             type:"SELECT",
             label:"城市",
             field:'city_id',
-            width:100,
-            initialValue:'0',
-            list:[{id:'0',name:'全部'},{id:'1',name:'北京'},{id:'2',name:'成都'}]
+            // width:100,
+            initialValue:"0",
+            list:[{id:"0",name:'全部'},{id:"1",name:'北京'},{id:"2",name:'成都'}]
+
+        },
+        {
+            type:"SELECT",
+            label:"订单状态",
+            field:'state',
+            // width:100,
+            initialValue:"1",
+            list:[{id:"0",name:'全部'},{id:"1",name:'进行中'},{id:"2",name:'结束行程'}]
 
         },
         {
             type:"订单时间",
             label:"订单时间",
-        },
-        {
-            type:"SELECT",
-            label:"订单状态",
-            field:'city_id',
-            width:100,
-            initialValue:'0',
-            list:[{id:'0',name:'全部'},{id:'1',name:'进行中'},{id:'2',name:'结束行程'}]
-
+            placeholder:"选择时间"
         }
 
     ]
@@ -135,7 +137,7 @@ export default class Order extends React.Component{
         return (
             <div>
                 <Card>
-                    <FilterForm/>
+                    <BaseForm optionList={this.optionList}/>
                 </Card>
                 <Card>
                     <Button onClick={this.handleOrderDetails}>订单详情</Button>

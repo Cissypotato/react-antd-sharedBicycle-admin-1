@@ -1,24 +1,25 @@
 import React from 'react'
-import {Form,Select,Input,Checkbox} from 'antd'
-import { Utils } from 'handlebars';
+import {Form,Select,Input,Checkbox,Button,DatePicker,} from 'antd'
 import Utils from '../../utils/utils';
 
 const { Option } = Select;
 
 
 class FilterForm extends React.Component{
+
     initialForm=()=>{
         const { getFieldDecorator }=this.props.form
         const optionList=this.props.optionList
         const optionLists=[]
 
+        console.log(optionList)
         optionList.forEach((item,index)=>{
             let type=item.type
-            let babel=item.babel
+            let label=item.label
             let field=item.field
             let width=item.width
-            let intialValue=item.intialValue || ''
-            let placeHolder=item.placeHolder
+            let initialValue=item.initialValue || ''
+            let placeholder=item.placeholder
             let list=item.list
   
             if(type==='INPUT'){
@@ -26,7 +27,7 @@ class FilterForm extends React.Component{
                 {
                     getFieldDecorator([field],{
                         initialValue:{initialValue}
-                    })(<Input placeholder={placeHolder} type="text"/>)
+                    })(<Input placeholder={placeholder} type="text"/>)
                 }
                 
                 </Form.Item>
@@ -36,9 +37,15 @@ class FilterForm extends React.Component{
                 const SELECT= <Form.Item label={label} key={field}>
                 {
                     getFieldDecorator([field],{
-                        initialValue:{initialValue}
-                    })(<Select style={{width:width}}>
+                        initialValue:[initialValue]
+                    })(<Select style={{width:100}}>
+
+                                {/* <Option value="0">全部</Option>
+                                <Option value="1">北京</Option>
+                                <Option value="2">成都</Option> */}
+
                         {Utils.getOptionList(list)}
+                        
                     </Select>)
                 }
                 
@@ -59,25 +66,36 @@ class FilterForm extends React.Component{
                 
                 </Form.Item>
                 optionLists.push(CHECKBOX)
+            }else if(type==='订单时间'){
+                const START_DATE=<Form.Item label={label}>
+                        {getFieldDecorator([field])(<DatePicker placeholder="选择开始时间"/>)}
+                    </Form.Item>  
+                optionLists.push(START_DATE)
+                const END_DATE=<Form.Item label="~" colon={false}>
+                        {getFieldDecorator([field])(<DatePicker placeholder="选择结束时间"/>)}
+                    </Form.Item>  
+                optionLists.push(END_DATE)
             }
             
         })
         
-        
+        return optionLists
 
     }
+
+
     render(){
 
         return (
-            <Form>
+            <Form layout="inline">
                 {this.initialForm()}
-                    <Form.Item >
-                        <Button type="primary"style={{marginRight:20}}>查询</Button>
-                        <Button >重置</Button>
-                    </Form.Item>
+                <Form.Item >
+                    <Button type="primary"style={{marginRight:20}}>查询</Button>
+                    <Button >重置</Button>
+                </Form.Item>
             </Form>
         )
     }
 }
 
-export default FilterForm = Form.create({})(OpenCityForm)
+export default Form.create({})(FilterForm)
