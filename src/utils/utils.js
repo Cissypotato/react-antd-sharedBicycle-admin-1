@@ -31,7 +31,6 @@ export default {
         }
         const options=[]
         data.map((item)=>{
-            console.log(item.id)
             const id=item.id
             options.push(<Option value={id} key={id}>{item.name}</Option>) 
         })

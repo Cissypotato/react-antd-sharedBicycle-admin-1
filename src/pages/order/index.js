@@ -40,27 +40,30 @@ export default class Order extends React.Component{
     componentDidMount(){
         this.requestList()
     }
+    handleFilter=(params)=>{
+        this.params=params
+        this.requestList()
+    }
     requestList=()=>{
         let  _this=this
-        Axios.ajax({
-            url:"order/list",
-            data:{
-                params:{
-                    page:this.params.page
-                }
-            }
-        }).then((res)=>{
-            this.setState({
-                dataSource:res.result.item_list.map((item,index)=>{
-                    item.key=index
-                    return item
-                }),
-                pagination:Utils.pagination(res,(current)=>{
-                    _this.params.page=current;
-                    _this.requestList()
-                })
-            })
-        })
+        Axios.requestList(this,"order/list",this.params,true)
+        // Axios.ajax({
+        //     url:"order/list",
+        //     data:{
+        //         params:this.params
+        //     }
+        // }).then((res)=>{
+        //     this.setState({
+        //         dataSource:res.result.item_list.map((item,index)=>{
+        //             item.key=index
+        //             return item
+        //         }),
+        //         pagination:Utils.pagination(res,(current)=>{
+        //             _this.params.page=current;
+        //             _this.requestList()
+        //         })
+        //     })
+        // })
     }
     handleOrderDetails=()=>{
         let item =this.state.selectedItem
@@ -137,7 +140,7 @@ export default class Order extends React.Component{
         return (
             <div>
                 <Card>
-                    <BaseForm optionList={this.optionList}/>
+                    <BaseForm optionList={this.optionList} filterSubmit={this.handleFilter}/>
                 </Card>
                 <Card>
                     <Button onClick={this.handleOrderDetails}>订单详情</Button>
