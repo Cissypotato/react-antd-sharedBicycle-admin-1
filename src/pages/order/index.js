@@ -3,6 +3,8 @@ import  { Button, Card, Table, Form, message, DatePicker, Modal, Select}  from '
 import Axios from './../../axios'
 import Utils from './../../utils/utils'
 import BaseForm from '../../components/baseForm'
+import CTable from '../../components/CTable'
+
 
 const { Option } = Select;
 export default class Order extends React.Component{
@@ -147,13 +149,21 @@ export default class Order extends React.Component{
                     <Button>删除订单</Button>
                 </Card>
                 <div>
-                    <Table 
-                        rowSelection={rowSelection}
+                    <CTable
+                     columns={columns} 
+                     dataSource={this.state.dataSource} 
+                     pagination={this.state.pagination}
+
+                     rowSelection="radio"
+                    
+                    />
+                    {/* <Table 
+                        
                         dataSource={this.state.dataSource} 
                         columns={columns} 
-                        bordered={true}
-                        pagination={this.state.pagination}
-                        />
+                       
+                        
+                        /> */}
                 </div>
             </div>
         )
